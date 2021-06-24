@@ -1,6 +1,7 @@
 package com.joklek.vinted.service;
 
 import com.joklek.vinted.model.PackageSize;
+import com.joklek.vinted.model.Pair;
 import com.joklek.vinted.model.ShippingCarrier;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -32,8 +33,8 @@ class ShippingPriceProviderTest {
     @ParameterizedTest
     @EnumSource(PackageSize.class)
     void getPrices(PackageSize size) {
-        var prices = shippingPriceProvider.getPrices(size);
-        
+        var prices = this.shippingPriceProvider.getPrices(size);
+
         assertThat(prices).hasSameSizeAs(ShippingCarrier.values());
         assertThat(prices).extracting(Pair::first).doesNotContainNull();
         assertThat(prices).extracting(Pair::second).doesNotContainNull();

@@ -1,8 +1,8 @@
 package com.joklek.vinted.service.rules;
 
 import com.joklek.vinted.model.PackageSize;
+import com.joklek.vinted.model.Pair;
 import com.joklek.vinted.model.ShippingInfo;
-import com.joklek.vinted.service.Pair;
 import com.joklek.vinted.service.ShippingPriceProvider;
 
 import java.math.BigDecimal;

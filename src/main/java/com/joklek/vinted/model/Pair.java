@@ -1,4 +1,4 @@
-package com.joklek.vinted.service;
+package com.joklek.vinted.model;
 
 import java.util.Objects;
 

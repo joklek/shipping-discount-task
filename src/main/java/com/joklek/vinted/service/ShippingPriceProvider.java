@@ -1,6 +1,7 @@
 package com.joklek.vinted.service;
 
 import com.joklek.vinted.model.PackageSize;
+import com.joklek.vinted.model.Pair;
 import com.joklek.vinted.model.ShippingCarrier;
 
 import java.math.BigDecimal;

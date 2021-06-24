@@ -1,4 +1,4 @@
-package com.joklek.vinted;
+package com.joklek.vinted.service;
 
 import com.joklek.vinted.model.PackageSize;
 import com.joklek.vinted.model.ShippingCarrier;

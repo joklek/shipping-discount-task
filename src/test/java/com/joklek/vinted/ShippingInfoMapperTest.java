@@ -2,6 +2,7 @@ package com.joklek.vinted;
 
 import com.joklek.vinted.model.PackageSize;
 import com.joklek.vinted.model.ShippingCarrier;
+import com.joklek.vinted.service.ShippingInfoMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
