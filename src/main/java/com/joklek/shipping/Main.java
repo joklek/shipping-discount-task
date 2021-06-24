@@ -20,6 +20,7 @@ public class Main {
 
     private static final ShippingPriceCalculator shippingPriceCalculator;
 
+    // Imagine that this block is automagically autowired by Spring or something else
     static {
         var shippingPriceProvider = new ShippingPriceProvider();
         var shippingInfoRepo = new ShippingInfoRepo();
@@ -39,7 +40,7 @@ public class Main {
 
         var filepath = Path.of(fileName);
         if (Files.notExists(filepath)) {
-            System.out.printf("File in given path %s does not exist%n", filepath);
+            System.out.printf("File in given path \"%s\" does not exist%n", filepath);
             return;
         }
 
