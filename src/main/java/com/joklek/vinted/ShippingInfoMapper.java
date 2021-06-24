@@ -13,7 +13,7 @@ public class ShippingInfoMapper {
     public ShippingInfo convert(String raw) {
         var splitString = raw.split(SEPARATOR);
         if (splitString.length != 3) {
-            throw new IllegalArgumentException("There are more than 3 elements in the given line");
+            throw new IllegalArgumentException("There should be only 3 elements in the given line");
         }
         var date = this.convertToDate(splitString[0]);
         var packageSize = this.convertToSize(splitString[1]);

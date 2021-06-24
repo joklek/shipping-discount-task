@@ -5,6 +5,7 @@ import com.joklek.vinted.model.ShippingCarrier;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class ShippingPriceProvider {
     );
 
     public BigDecimal getPrice(ShippingCarrier shippingCarrier, PackageSize packageSize) {
-        return this.priceMap.get(Pair.of(shippingCarrier, packageSize));
+        return Objects.requireNonNull(this.priceMap.get(Pair.of(shippingCarrier, packageSize)));
     }
 
     public Set<Pair<ShippingCarrier, BigDecimal>> getPrices(PackageSize packageSize) {
