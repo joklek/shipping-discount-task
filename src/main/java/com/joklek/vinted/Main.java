@@ -14,10 +14,16 @@ import java.util.Locale;
 public class Main {
 
     private static final String DEFAULT_INPUT_NAME = "input.txt";
-    private static final ShippingPriceCalculator shippingPriceCalculator = new ShippingPriceCalculator(
-            new ShippingInfoMapper(),
-            new ShippingPriceProvider(),
-            new ShippingSuggestedPriceProvider(List.of(new SmallShipmentsRule())));
+
+    private static final ShippingPriceCalculator shippingPriceCalculator;
+
+    static {
+        var shippingPriceProvider = new ShippingPriceProvider();
+        shippingPriceCalculator = new ShippingPriceCalculator(
+                new ShippingInfoMapper(),
+                shippingPriceProvider,
+                new ShippingSuggestedPriceProvider(List.of(new SmallShipmentsRule(shippingPriceProvider))));
+    }
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);

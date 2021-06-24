@@ -10,7 +10,11 @@ import java.util.Comparator;
 
 public class SmallShipmentsRule implements DiscountRule {
 
-    private final ShippingPriceProvider shippingPriceProvider = new ShippingPriceProvider(); // TODO inject
+    private final ShippingPriceProvider shippingPriceProvider;
+
+    public SmallShipmentsRule(ShippingPriceProvider shippingPriceProvider) {
+        this.shippingPriceProvider = shippingPriceProvider;
+    }
 
     @Override
     public boolean isApplicableFor(ShippingInfo shippingInfo) {

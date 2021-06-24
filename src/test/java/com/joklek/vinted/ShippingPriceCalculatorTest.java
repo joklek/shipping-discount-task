@@ -25,14 +25,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ShippingPriceCalculatorTest {
 
-    private final ShippingPriceCalculator shippingPriceCalculator = new ShippingPriceCalculator(
-            new ShippingInfoMapper(),
-            new ShippingPriceProvider(),
-            new ShippingSuggestedPriceProvider(List.of(new SmallShipmentsRule())));
+    private final ShippingPriceCalculator shippingPriceCalculator;
+
+    public ShippingPriceCalculatorTest() {
+        var shippingPriceProvider = new ShippingPriceProvider();
+        this.shippingPriceCalculator = new ShippingPriceCalculator(
+                new ShippingInfoMapper(),
+                shippingPriceProvider,
+                new ShippingSuggestedPriceProvider(List.of(new SmallShipmentsRule(shippingPriceProvider))));
+    }
 
 
     @Test
-    void process() {
+    void process__fromExample() {
         List<String> rawLines = this.rawLinesFromExample();
         List<SuccessOrRaw<ShippingDiscountResponse>> responseFromExample = this.responseFromExample();
 
