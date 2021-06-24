@@ -1,4 +1,4 @@
-package com.joklek.vinted.model;
+package com.joklek.shipping.model;
 
 public record Pair<A, B>(A first, B second) {
 

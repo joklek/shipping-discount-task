@@ -1,4 +1,4 @@
-package com.joklek.vinted.model;
+package com.joklek.shipping.model;
 
 import java.time.LocalDate;
 

@@ -1,12 +1,12 @@
-package com.joklek.vinted;
+package com.joklek.shipping;
 
-import com.joklek.vinted.service.ShippingInfoMapper;
-import com.joklek.vinted.service.ShippingInfoRepo;
-import com.joklek.vinted.service.ShippingPriceProvider;
-import com.joklek.vinted.service.ShippingSuggestedPriceProvider;
-import com.joklek.vinted.service.rules.DiscountAccumulationLimitRule;
-import com.joklek.vinted.service.rules.SmallShipmentsRule;
-import com.joklek.vinted.service.rules.ThirdLargeForLaPosteRule;
+import com.joklek.shipping.service.ShippingInfoMapper;
+import com.joklek.shipping.service.ShippingInfoRepo;
+import com.joklek.shipping.service.ShippingPriceProvider;
+import com.joklek.shipping.service.ShippingSuggestedPriceProvider;
+import com.joklek.shipping.service.rules.DiscountAccumulationLimitRule;
+import com.joklek.shipping.service.rules.SmallShipmentsRule;
+import com.joklek.shipping.service.rules.ThirdLargeForLaPosteRule;
 
 import java.io.IOException;
 import java.nio.file.Files;

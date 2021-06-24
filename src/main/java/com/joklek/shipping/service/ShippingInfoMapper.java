@@ -1,8 +1,8 @@
-package com.joklek.vinted.service;
+package com.joklek.shipping.service;
 
-import com.joklek.vinted.model.PackageSize;
-import com.joklek.vinted.model.ShippingCarrier;
-import com.joklek.vinted.model.ShippingInfo;
+import com.joklek.shipping.model.PackageSize;
+import com.joklek.shipping.model.ShippingCarrier;
+import com.joklek.shipping.model.ShippingInfo;
 
 import java.time.LocalDate;
 

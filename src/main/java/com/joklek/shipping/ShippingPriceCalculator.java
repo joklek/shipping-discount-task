@@ -1,11 +1,11 @@
-package com.joklek.vinted;
+package com.joklek.shipping;
 
-import com.joklek.vinted.model.ShippingDiscountResponse;
-import com.joklek.vinted.model.ShippingInfo;
-import com.joklek.vinted.service.ShippingInfoMapper;
-import com.joklek.vinted.service.ShippingInfoRepo;
-import com.joklek.vinted.service.ShippingPriceProvider;
-import com.joklek.vinted.service.ShippingSuggestedPriceProvider;
+import com.joklek.shipping.model.ShippingDiscountResponse;
+import com.joklek.shipping.model.ShippingInfo;
+import com.joklek.shipping.service.ShippingInfoMapper;
+import com.joklek.shipping.service.ShippingInfoRepo;
+import com.joklek.shipping.service.ShippingPriceProvider;
+import com.joklek.shipping.service.ShippingSuggestedPriceProvider;
 
 import java.util.Optional;
 

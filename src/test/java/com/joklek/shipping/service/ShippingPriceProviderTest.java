@@ -1,8 +1,8 @@
-package com.joklek.vinted.service;
+package com.joklek.shipping.service;
 
-import com.joklek.vinted.model.PackageSize;
-import com.joklek.vinted.model.Pair;
-import com.joklek.vinted.model.ShippingCarrier;
+import com.joklek.shipping.model.PackageSize;
+import com.joklek.shipping.model.Pair;
+import com.joklek.shipping.model.ShippingCarrier;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;

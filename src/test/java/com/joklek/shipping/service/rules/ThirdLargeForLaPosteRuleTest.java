@@ -1,10 +1,10 @@
-package com.joklek.vinted.service.rules;
+package com.joklek.shipping.service.rules;
 
-import com.joklek.vinted.model.PackageSize;
-import com.joklek.vinted.model.ShippingCarrier;
-import com.joklek.vinted.model.ShippingDiscountResponse;
-import com.joklek.vinted.model.ShippingInfo;
-import com.joklek.vinted.service.ShippingInfoRepo;
+import com.joklek.shipping.model.PackageSize;
+import com.joklek.shipping.model.ShippingCarrier;
+import com.joklek.shipping.model.ShippingDiscountResponse;
+import com.joklek.shipping.model.ShippingInfo;
+import com.joklek.shipping.service.ShippingInfoRepo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,10 +16,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.joklek.vinted.model.PackageSize.LARGE;
-import static com.joklek.vinted.model.PackageSize.MEDIUM;
-import static com.joklek.vinted.model.PackageSize.SMALL;
-import static com.joklek.vinted.model.ShippingCarrier.LA_POSTE;
+import static com.joklek.shipping.model.PackageSize.LARGE;
+import static com.joklek.shipping.model.PackageSize.MEDIUM;
+import static com.joklek.shipping.model.PackageSize.SMALL;
+import static com.joklek.shipping.model.ShippingCarrier.LA_POSTE;
 import static java.util.function.Predicate.not;
 import static org.assertj.core.api.Assertions.assertThat;
 

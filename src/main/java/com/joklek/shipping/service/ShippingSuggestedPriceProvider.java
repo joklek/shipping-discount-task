@@ -1,7 +1,7 @@
-package com.joklek.vinted.service;
+package com.joklek.shipping.service;
 
-import com.joklek.vinted.model.ShippingInfo;
-import com.joklek.vinted.service.rules.DiscountRule;
+import com.joklek.shipping.model.ShippingInfo;
+import com.joklek.shipping.service.rules.DiscountRule;
 
 import java.math.BigDecimal;
 import java.util.List;

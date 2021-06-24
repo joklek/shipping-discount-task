@@ -1,13 +1,13 @@
-package com.joklek.vinted;
+package com.joklek.shipping;
 
-import com.joklek.vinted.model.ShippingDiscountResponse;
-import com.joklek.vinted.service.ShippingInfoMapper;
-import com.joklek.vinted.service.ShippingInfoRepo;
-import com.joklek.vinted.service.ShippingPriceProvider;
-import com.joklek.vinted.service.ShippingSuggestedPriceProvider;
-import com.joklek.vinted.service.rules.DiscountAccumulationLimitRule;
-import com.joklek.vinted.service.rules.SmallShipmentsRule;
-import com.joklek.vinted.service.rules.ThirdLargeForLaPosteRule;
+import com.joklek.shipping.model.ShippingDiscountResponse;
+import com.joklek.shipping.service.ShippingInfoMapper;
+import com.joklek.shipping.service.ShippingInfoRepo;
+import com.joklek.shipping.service.ShippingPriceProvider;
+import com.joklek.shipping.service.ShippingSuggestedPriceProvider;
+import com.joklek.shipping.service.rules.DiscountAccumulationLimitRule;
+import com.joklek.shipping.service.rules.SmallShipmentsRule;
+import com.joklek.shipping.service.rules.ThirdLargeForLaPosteRule;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.joklek.vinted.model.PackageSize.LARGE;
-import static com.joklek.vinted.model.PackageSize.MEDIUM;
-import static com.joklek.vinted.model.PackageSize.SMALL;
-import static com.joklek.vinted.model.ShippingCarrier.LA_POSTE;
-import static com.joklek.vinted.model.ShippingCarrier.MONDIAL_RELAY;
+import static com.joklek.shipping.model.PackageSize.LARGE;
+import static com.joklek.shipping.model.PackageSize.MEDIUM;
+import static com.joklek.shipping.model.PackageSize.SMALL;
+import static com.joklek.shipping.model.ShippingCarrier.LA_POSTE;
+import static com.joklek.shipping.model.ShippingCarrier.MONDIAL_RELAY;
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,4 +1,4 @@
-package com.joklek.vinted.model;
+package com.joklek.shipping.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

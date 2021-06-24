@@ -1,8 +1,8 @@
-package com.joklek.vinted.service.rules;
+package com.joklek.shipping.service.rules;
 
-import com.joklek.vinted.model.ShippingDiscountResponse;
-import com.joklek.vinted.model.ShippingInfo;
-import com.joklek.vinted.service.ShippingInfoRepo;
+import com.joklek.shipping.model.ShippingDiscountResponse;
+import com.joklek.shipping.model.ShippingInfo;
+import com.joklek.shipping.service.ShippingInfoRepo;
 
 import java.math.BigDecimal;
 import java.time.Month;

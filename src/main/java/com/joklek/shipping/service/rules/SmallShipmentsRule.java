@@ -1,9 +1,9 @@
-package com.joklek.vinted.service.rules;
+package com.joklek.shipping.service.rules;
 
-import com.joklek.vinted.model.PackageSize;
-import com.joklek.vinted.model.Pair;
-import com.joklek.vinted.model.ShippingInfo;
-import com.joklek.vinted.service.ShippingPriceProvider;
+import com.joklek.shipping.model.PackageSize;
+import com.joklek.shipping.model.Pair;
+import com.joklek.shipping.model.ShippingInfo;
+import com.joklek.shipping.service.ShippingPriceProvider;
 
 import java.math.BigDecimal;
 import java.util.Comparator;

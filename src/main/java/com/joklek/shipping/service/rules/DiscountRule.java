@@ -1,6 +1,6 @@
-package com.joklek.vinted.service.rules;
+package com.joklek.shipping.service.rules;
 
-import com.joklek.vinted.model.ShippingInfo;
+import com.joklek.shipping.model.ShippingInfo;
 
 import java.math.BigDecimal;
 
