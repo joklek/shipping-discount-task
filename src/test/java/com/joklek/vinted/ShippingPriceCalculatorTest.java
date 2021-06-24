@@ -3,9 +3,12 @@ package com.joklek.vinted;
 import com.joklek.vinted.model.ShippingDiscountResponse;
 import com.joklek.vinted.model.SuccessOrRaw;
 import com.joklek.vinted.service.ShippingInfoMapper;
+import com.joklek.vinted.service.ShippingInfoRepo;
 import com.joklek.vinted.service.ShippingPriceProvider;
 import com.joklek.vinted.service.ShippingSuggestedPriceProvider;
+import com.joklek.vinted.service.rules.DiscountAccumulationLimitRule;
 import com.joklek.vinted.service.rules.SmallShipmentsRule;
+import com.joklek.vinted.service.rules.ThirdLargeForLaPosteRule;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -29,12 +32,16 @@ class ShippingPriceCalculatorTest {
 
     public ShippingPriceCalculatorTest() {
         var shippingPriceProvider = new ShippingPriceProvider();
+        var shippingInfoRepo = new ShippingInfoRepo();
         this.shippingPriceCalculator = new ShippingPriceCalculator(
+                shippingInfoRepo,
                 new ShippingInfoMapper(),
                 shippingPriceProvider,
-                new ShippingSuggestedPriceProvider(List.of(new SmallShipmentsRule(shippingPriceProvider))));
+                new ShippingSuggestedPriceProvider(List.of(
+                        new SmallShipmentsRule(shippingPriceProvider),
+                        new ThirdLargeForLaPosteRule(shippingInfoRepo),
+                        new DiscountAccumulationLimitRule(shippingInfoRepo))));
     }
-
 
     @Test
     void process__fromExample() {
@@ -104,6 +111,4 @@ class ShippingPriceCalculatorTest {
 
         assertThat(processedLines).isEmpty();
     }
-
-
 }

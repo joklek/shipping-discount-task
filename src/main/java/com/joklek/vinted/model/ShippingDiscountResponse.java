@@ -17,15 +17,23 @@ public final class ShippingDiscountResponse {
         this.date = date;
         this.packageSize = packageSize;
         this.shippingCarrier = shippingCarrier;
-        this.price = price;
-        this.discount = discount;
+        this.price = price.stripTrailingZeros();
+        this.discount = BigDecimal.ZERO.compareTo(discount) == 0 ? null : discount.stripTrailingZeros();
+    }
+
+    public ShippingDiscountResponse(LocalDate date, PackageSize packageSize, ShippingCarrier shippingCarrier, BigDecimal price) {
+        this.date = date;
+        this.packageSize = packageSize;
+        this.shippingCarrier = shippingCarrier;
+        this.price = price.stripTrailingZeros();
+        this.discount = null;
     }
 
     public ShippingDiscountResponse(ShippingInfo shippingInfo, BigDecimal price, BigDecimal discount) {
         this.date = shippingInfo.date();
         this.packageSize = shippingInfo.packageSize();
         this.shippingCarrier = shippingInfo.shippingCarrier();
-        this.price = price;
+        this.price = price.stripTrailingZeros();
         this.discount = BigDecimal.ZERO.compareTo(discount) == 0 ? null : discount;
     }
 

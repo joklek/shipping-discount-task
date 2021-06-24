@@ -5,7 +5,8 @@ import com.joklek.vinted.model.ShippingInfo;
 import java.math.BigDecimal;
 
 public interface DiscountRule {
+
     boolean isApplicableFor(ShippingInfo shippingInfo);
 
-    BigDecimal suggestedPrice(ShippingInfo shippingInfo);
+    BigDecimal getSuggestedPrice(ShippingInfo shippingInfo, BigDecimal initialPrice, BigDecimal currentSuggestedPrice);
 }

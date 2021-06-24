@@ -22,7 +22,8 @@ public class SmallShipmentsRule implements DiscountRule {
     }
 
     @Override
-    public BigDecimal suggestedPrice(ShippingInfo shippingInfo) {
+    public BigDecimal getSuggestedPrice(ShippingInfo shippingInfo, BigDecimal initialPrice, BigDecimal currentSuggestedPrice) {
+        // TODO what if this suggests a higher price?
         return this.shippingPriceProvider.getPrices(PackageSize.SMALL).stream()
                 .map(Pair::second)
                 .min(Comparator.naturalOrder()).orElseThrow();

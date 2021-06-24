@@ -5,7 +5,6 @@ import com.joklek.vinted.service.rules.DiscountRule;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 public class ShippingSuggestedPriceProvider {
 
@@ -15,10 +14,14 @@ public class ShippingSuggestedPriceProvider {
         this.discountRules = discountRules;
     }
 
-    public Optional<BigDecimal> findSuggestedPrice(ShippingInfo shippingInfo) {
-        return this.discountRules.stream()
-                .filter(rule -> rule.isApplicableFor(shippingInfo))
-                .findFirst()
-                .map(applicableRule -> applicableRule.suggestedPrice(shippingInfo));
+    public BigDecimal findSuggestedPrice(ShippingInfo shippingInfo, BigDecimal initialPrice) {
+        var currentSuggestedPrice = initialPrice;
+        for (DiscountRule discountRule : this.discountRules) {
+            if (!discountRule.isApplicableFor(shippingInfo)) {
+                continue;
+            }
+            currentSuggestedPrice = discountRule.getSuggestedPrice(shippingInfo, initialPrice, currentSuggestedPrice);
+        }
+        return currentSuggestedPrice;
     }
 }

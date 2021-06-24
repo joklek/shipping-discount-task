@@ -4,19 +4,21 @@ import com.joklek.vinted.model.ShippingDiscountResponse;
 import com.joklek.vinted.model.ShippingInfo;
 import com.joklek.vinted.model.SuccessOrRaw;
 import com.joklek.vinted.service.ShippingInfoMapper;
+import com.joklek.vinted.service.ShippingInfoRepo;
 import com.joklek.vinted.service.ShippingPriceProvider;
 import com.joklek.vinted.service.ShippingSuggestedPriceProvider;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ShippingPriceCalculator {
 
+    private final ShippingInfoRepo shippingInfoRepo;
     private final ShippingInfoMapper shippingInfoMapper;
     private final ShippingPriceProvider shippingPriceProvider;
     private final ShippingSuggestedPriceProvider shippingSuggestedPriceProvider;
 
-    public ShippingPriceCalculator(ShippingInfoMapper shippingInfoMapper, ShippingPriceProvider shippingPriceProvider, ShippingSuggestedPriceProvider shippingSuggestedPriceProvider) {
+    public ShippingPriceCalculator(ShippingInfoRepo shippingInfoRepo, ShippingInfoMapper shippingInfoMapper, ShippingPriceProvider shippingPriceProvider, ShippingSuggestedPriceProvider shippingSuggestedPriceProvider) {
+        this.shippingInfoRepo = shippingInfoRepo;
         this.shippingInfoMapper = shippingInfoMapper;
         this.shippingPriceProvider = shippingPriceProvider;
         this.shippingSuggestedPriceProvider = shippingSuggestedPriceProvider;
@@ -24,18 +26,20 @@ public class ShippingPriceCalculator {
 
     public List<SuccessOrRaw<ShippingDiscountResponse>> process(List<String> rawLines) {
 
-        return rawLines.stream().map(rawLine -> {
+        for (String rawLine : rawLines) {
             ShippingInfo shippingInfo;
             try {
                 shippingInfo = this.shippingInfoMapper.convert(rawLine);
             } catch (Exception e) {
-                return (SuccessOrRaw<ShippingDiscountResponse>) SuccessOrRaw.error(rawLine);
+                this.shippingInfoRepo.addError(rawLine);
+                continue;
             }
             var initialPrice = this.shippingPriceProvider.getPrice(shippingInfo.shippingCarrier(), shippingInfo.packageSize());
-            var suggestedPrice = this.shippingSuggestedPriceProvider.findSuggestedPrice(shippingInfo);
-            var finalPrice = suggestedPrice.orElse(initialPrice);
+            var finalPrice = this.shippingSuggestedPriceProvider.findSuggestedPrice(shippingInfo, initialPrice);
             var discount = initialPrice.subtract(finalPrice);
-            return SuccessOrRaw.success(new ShippingDiscountResponse(shippingInfo, finalPrice, discount));
-        }).collect(Collectors.toList());
+
+            this.shippingInfoRepo.addSuccess(new ShippingDiscountResponse(shippingInfo, finalPrice, discount));
+        }
+        return this.shippingInfoRepo.getProcessedShipments();
     }
 }

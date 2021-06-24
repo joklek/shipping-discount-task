@@ -1,9 +1,12 @@
 package com.joklek.vinted;
 
 import com.joklek.vinted.service.ShippingInfoMapper;
+import com.joklek.vinted.service.ShippingInfoRepo;
 import com.joklek.vinted.service.ShippingPriceProvider;
 import com.joklek.vinted.service.ShippingSuggestedPriceProvider;
+import com.joklek.vinted.service.rules.DiscountAccumulationLimitRule;
 import com.joklek.vinted.service.rules.SmallShipmentsRule;
+import com.joklek.vinted.service.rules.ThirdLargeForLaPosteRule;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,10 +22,15 @@ public class Main {
 
     static {
         var shippingPriceProvider = new ShippingPriceProvider();
+        var shippingInfoRepo = new ShippingInfoRepo();
         shippingPriceCalculator = new ShippingPriceCalculator(
+                shippingInfoRepo,
                 new ShippingInfoMapper(),
                 shippingPriceProvider,
-                new ShippingSuggestedPriceProvider(List.of(new SmallShipmentsRule(shippingPriceProvider))));
+                new ShippingSuggestedPriceProvider(List.of(
+                        new SmallShipmentsRule(shippingPriceProvider),
+                        new ThirdLargeForLaPosteRule(shippingInfoRepo),
+                        new DiscountAccumulationLimitRule(shippingInfoRepo))));
     }
 
     public static void main(String[] args) {
