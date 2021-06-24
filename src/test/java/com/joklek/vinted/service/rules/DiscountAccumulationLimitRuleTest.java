@@ -2,7 +2,6 @@ package com.joklek.vinted.service.rules;
 
 import com.joklek.vinted.model.ShippingDiscountResponse;
 import com.joklek.vinted.model.ShippingInfo;
-import com.joklek.vinted.model.SuccessOrRaw;
 import com.joklek.vinted.service.ShippingInfoRepo;
 import org.junit.jupiter.api.Test;
 
@@ -43,8 +42,8 @@ class DiscountAccumulationLimitRuleTest {
     @Test
     void getSuggestedPrice__whenDiscountEqualToMonthBalance__thenShouldAllowToLimit() {
         var rule = new DiscountAccumulationLimitRule(new ShippingInfoRepo(List.of(
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10), BigDecimal.valueOf(3))),
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10), BigDecimal.valueOf(5)))
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10), BigDecimal.valueOf(3)),
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10), BigDecimal.valueOf(5))
         )));
 
         var initialPrice = BigDecimal.valueOf(6);

@@ -43,25 +43,25 @@ public class Main {
             return;
         }
 
-        List<String> fileLines;
         try {
-            fileLines = Files.readAllLines(filepath);
+            Files.lines(filepath)
+                    .forEach(Main::consumeRawLine);
         } catch (IOException e) {
             System.out.printf("Something wrong happened while reading the files in path %s%n", filepath);
             return;
         }
+    }
 
-        var processedShipping = shippingPriceCalculator.process(fileLines);
-        for (var shipping : processedShipping) {
-            if (shipping.getError().isPresent()) {
-                System.out.printf("%s Ignored %n", shipping.getError().get());
+    private static void consumeRawLine(String rawLine) {
+        var processedShipment = shippingPriceCalculator.process(rawLine);
+        if (processedShipment.isEmpty()) {
+            System.out.printf("%s Ignored %n", rawLine);
+        } else {
+            var shipment = processedShipment.get();
+            if (shipment.discount().isEmpty()) {
+                System.out.printf("%s %s %s %.2f - %n", shipment.date(), shipment.packageSize().getShortVersion(), shipment.shippingCarrier().getShortVersion(), shipment.price());
             } else {
-                var shippingInfo = shipping.getSuccess().get();
-                if (shippingInfo.discount().isEmpty()) {
-                    System.out.printf("%s %s %s %.2f - %n", shippingInfo.date(), shippingInfo.packageSize().getShortVersion(), shippingInfo.shippingCarrier().getShortVersion(), shippingInfo.price());
-                } else {
-                    System.out.printf("%s %s %s %.2f %.2f %n", shippingInfo.date(), shippingInfo.packageSize().getShortVersion(), shippingInfo.shippingCarrier().getShortVersion(), shippingInfo.price(), shippingInfo.discount().get());
-                }
+                System.out.printf("%s %s %s %.2f %.2f %n", shipment.date(), shipment.packageSize().getShortVersion(), shipment.shippingCarrier().getShortVersion(), shipment.price(), shipment.discount().get());
             }
         }
     }

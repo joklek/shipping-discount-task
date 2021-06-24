@@ -4,7 +4,6 @@ import com.joklek.vinted.model.PackageSize;
 import com.joklek.vinted.model.ShippingCarrier;
 import com.joklek.vinted.model.ShippingDiscountResponse;
 import com.joklek.vinted.model.ShippingInfo;
-import com.joklek.vinted.model.SuccessOrRaw;
 import com.joklek.vinted.service.ShippingInfoRepo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,8 +28,8 @@ class ThirdLargeForLaPosteRuleTest {
     @Test
     void getSuggestedPrice__whenThirdShipmentInMonth__thenPriceShouldBeZero() {
         var shipmentsInRepo = List.of(
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10))),
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-25"), LARGE, LA_POSTE, BigDecimal.valueOf(10)))
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10)),
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-25"), LARGE, LA_POSTE, BigDecimal.valueOf(10))
         );
         var rule = new ThirdLargeForLaPosteRule(new ShippingInfoRepo(shipmentsInRepo));
         var shippingInfo = new ShippingInfo(LocalDate.parse("2021-06-26"), LARGE, LA_POSTE);
@@ -43,8 +42,8 @@ class ThirdLargeForLaPosteRuleTest {
     @Test
     void getSuggestedPrice__whenFirstShipmentInMonth__thenPriceShouldBePrevious() {
         var shipmentsInRepo = List.of(
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10))),
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-25"), LARGE, LA_POSTE, BigDecimal.valueOf(10)))
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10)),
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-25"), LARGE, LA_POSTE, BigDecimal.valueOf(10))
         );
         var rule = new ThirdLargeForLaPosteRule(new ShippingInfoRepo(shipmentsInRepo));
         var shippingInfo = new ShippingInfo(LocalDate.parse("2021-07-01"), LARGE, LA_POSTE);
@@ -62,11 +61,11 @@ class ThirdLargeForLaPosteRuleTest {
     @Test
     void getSuggestedPrice__whenSixthShipmentInMonth__thenPriceShouldBePrevious() {
         var shipmentsInRepo = List.of(
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10))),
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10))),
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10))),
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10))),
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-25"), LARGE, LA_POSTE, BigDecimal.valueOf(10)))
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10)),
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10)),
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10)),
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), LARGE, LA_POSTE, BigDecimal.valueOf(10)),
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-25"), LARGE, LA_POSTE, BigDecimal.valueOf(10))
         );
         var rule = new ThirdLargeForLaPosteRule(new ShippingInfoRepo(shipmentsInRepo));
         var shippingInfo = new ShippingInfo(LocalDate.parse("2021-06-26"), LARGE, LA_POSTE);
@@ -81,8 +80,8 @@ class ThirdLargeForLaPosteRuleTest {
     @Test
     void getSuggestedPrice__whenThirdShipmentInMonthButOthersNotLarge__thenPriceShouldNotBeZero() {
         var shipmentsInRepo = List.of(
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), MEDIUM, LA_POSTE, BigDecimal.valueOf(10))),
-                SuccessOrRaw.success(new ShippingDiscountResponse(LocalDate.parse("2021-06-25"), SMALL, LA_POSTE, BigDecimal.valueOf(10)))
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-24"), MEDIUM, LA_POSTE, BigDecimal.valueOf(10)),
+                new ShippingDiscountResponse(LocalDate.parse("2021-06-25"), SMALL, LA_POSTE, BigDecimal.valueOf(10))
         );
         var rule = new ThirdLargeForLaPosteRule(new ShippingInfoRepo(shipmentsInRepo));
         var shippingInfo = new ShippingInfo(LocalDate.parse("2021-06-26"), LARGE, LA_POSTE);

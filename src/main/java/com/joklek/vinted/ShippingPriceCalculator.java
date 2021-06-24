@@ -2,13 +2,12 @@ package com.joklek.vinted;
 
 import com.joklek.vinted.model.ShippingDiscountResponse;
 import com.joklek.vinted.model.ShippingInfo;
-import com.joklek.vinted.model.SuccessOrRaw;
 import com.joklek.vinted.service.ShippingInfoMapper;
 import com.joklek.vinted.service.ShippingInfoRepo;
 import com.joklek.vinted.service.ShippingPriceProvider;
 import com.joklek.vinted.service.ShippingSuggestedPriceProvider;
 
-import java.util.List;
+import java.util.Optional;
 
 public class ShippingPriceCalculator {
 
@@ -24,22 +23,20 @@ public class ShippingPriceCalculator {
         this.shippingSuggestedPriceProvider = shippingSuggestedPriceProvider;
     }
 
-    public List<SuccessOrRaw<ShippingDiscountResponse>> process(List<String> rawLines) {
+    public Optional<ShippingDiscountResponse> process(String rawLine) {
 
-        for (String rawLine : rawLines) {
-            ShippingInfo shippingInfo;
-            try {
-                shippingInfo = this.shippingInfoMapper.convert(rawLine);
-            } catch (Exception e) {
-                this.shippingInfoRepo.addError(rawLine);
-                continue;
-            }
-            var initialPrice = this.shippingPriceProvider.getPrice(shippingInfo.shippingCarrier(), shippingInfo.packageSize());
-            var finalPrice = this.shippingSuggestedPriceProvider.findSuggestedPrice(shippingInfo, initialPrice);
-            var discount = initialPrice.subtract(finalPrice);
-
-            this.shippingInfoRepo.addSuccess(new ShippingDiscountResponse(shippingInfo, finalPrice, discount));
+        ShippingInfo shippingInfo;
+        try {
+            shippingInfo = this.shippingInfoMapper.convert(rawLine);
+        } catch (Exception e) {
+            return Optional.empty();
         }
-        return this.shippingInfoRepo.getProcessedShipments();
+        var initialPrice = this.shippingPriceProvider.getPrice(shippingInfo.shippingCarrier(), shippingInfo.packageSize());
+        var finalPrice = this.shippingSuggestedPriceProvider.findSuggestedPrice(shippingInfo, initialPrice);
+        var discount = initialPrice.subtract(finalPrice);
+
+        var calculatedDiscount = new ShippingDiscountResponse(shippingInfo, finalPrice, discount);
+        this.shippingInfoRepo.addSuccess(calculatedDiscount);
+        return Optional.of(calculatedDiscount);
     }
 }
