@@ -5,7 +5,8 @@ import com.joklek.vinted.model.ShippingCarrier;
 
 import java.math.BigDecimal;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.joklek.vinted.model.PackageSize.LARGE;
 import static com.joklek.vinted.model.PackageSize.MEDIUM;
@@ -28,27 +29,11 @@ public class ShippingPriceProvider {
         return this.priceMap.get(Pair.of(shippingCarrier, packageSize));
     }
 
-    private record Pair<A, B>(A first, B second) {
-
-        public static <A, B> Pair<A, B> of(A first, B second) {
-            return new Pair<>(first, second);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || this.getClass() != o.getClass()) {
-                return false;
-            }
-            Pair<?, ?> pair = (Pair<?, ?>) o;
-            return this.first.equals(pair.first) && this.second.equals(pair.second);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.first, this.second);
-        }
+    public Set<Pair<ShippingCarrier, BigDecimal>> getPrices(PackageSize packageSize) {
+        return this.priceMap.entrySet().stream()
+                .filter(entry -> entry.getKey().second().equals(packageSize))
+                .map(entry -> Pair.of(entry.getKey().first(), entry.getValue()))
+                .collect(Collectors.toSet());
     }
+
 }

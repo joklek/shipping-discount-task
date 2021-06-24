@@ -2,8 +2,11 @@ package com.joklek.vinted;
 
 import com.joklek.vinted.model.ShippingInfo;
 import com.joklek.vinted.service.ShippingPriceProvider;
+import com.joklek.vinted.service.ShippingSuggestedPriceProvider;
+import com.joklek.vinted.service.rules.SmallShipmentsRule;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -14,6 +17,7 @@ public class Main {
     private static final String DEFAULT_INPUT_NAME = "input.txt";
     private static final ShippingInfoMapper shippingInfoMapper = new ShippingInfoMapper();
     private static final ShippingPriceProvider shippingPriceProvider = new ShippingPriceProvider();
+    private static final ShippingSuggestedPriceProvider shippingSuggestedPriceProvider = new ShippingSuggestedPriceProvider(List.of(new SmallShipmentsRule()));
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
@@ -34,15 +38,22 @@ public class Main {
         }
 
         for (String line : fileLines) {
-            ShippingInfo converted;
+            ShippingInfo shippingInfo;
             try {
-                converted = shippingInfoMapper.convert(line);
+                shippingInfo = shippingInfoMapper.convert(line);
             } catch (Exception e) {
                 System.out.printf("%s Ignored %n", line);
                 continue;
             }
-            var price = shippingPriceProvider.getPrice(converted.shippingCarrier(), converted.packageSize());
-            System.out.printf("%s %s %s %.2f %n", converted.date(), converted.packageSize().getShortVersion(), converted.shippingCarrier().getShortVersion(), price);
+            var price = shippingPriceProvider.getPrice(shippingInfo.shippingCarrier(), shippingInfo.packageSize());
+            var suggestedPrice = shippingSuggestedPriceProvider.findSuggestedPrice(shippingInfo);
+            var discount = price.subtract(suggestedPrice.orElse(price));
+
+            if (discount.compareTo(BigDecimal.ZERO) == 0) {
+                System.out.printf("%s %s %s %.2f - %n", shippingInfo.date(), shippingInfo.packageSize().getShortVersion(), shippingInfo.shippingCarrier().getShortVersion(), price);
+            } else {
+                System.out.printf("%s %s %s %.2f %.2f %n", shippingInfo.date(), shippingInfo.packageSize().getShortVersion(), shippingInfo.shippingCarrier().getShortVersion(), price, discount);
+            }
         }
     }
 }
