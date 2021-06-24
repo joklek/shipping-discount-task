@@ -24,10 +24,6 @@ public class ShippingInfoRepo {
         this.processedShipments.add(success);
     }
 
-    public List<ShippingDiscountResponse> getProcessedShipments() {
-        return List.copyOf(this.processedShipments);
-    }
-
     public List<ShippingDiscountResponse> findShipmentsOnMonthForCarrierAndMonth(int year, Month month, ShippingCarrier carrier, PackageSize size) {
         return this.findShipmentsOnMonth(year, month).stream()
                 .filter(shipment -> shipment.shippingCarrier().equals(carrier))
