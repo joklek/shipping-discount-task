@@ -22,19 +22,11 @@ public final class ShippingDiscountResponse {
     }
 
     public ShippingDiscountResponse(LocalDate date, PackageSize packageSize, ShippingCarrier shippingCarrier, BigDecimal price) {
-        this.date = date;
-        this.packageSize = packageSize;
-        this.shippingCarrier = shippingCarrier;
-        this.price = price.stripTrailingZeros();
-        this.discount = null;
+        this(date, packageSize, shippingCarrier, price, BigDecimal.ZERO);
     }
 
     public ShippingDiscountResponse(ShippingInfo shippingInfo, BigDecimal price, BigDecimal discount) {
-        this.date = shippingInfo.date();
-        this.packageSize = shippingInfo.packageSize();
-        this.shippingCarrier = shippingInfo.shippingCarrier();
-        this.price = price.stripTrailingZeros();
-        this.discount = BigDecimal.ZERO.compareTo(discount) == 0 ? null : discount;
+        this(shippingInfo.date(), shippingInfo.packageSize(), shippingInfo.shippingCarrier(), price, discount);
     }
 
     public LocalDate date() {

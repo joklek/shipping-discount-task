@@ -11,16 +11,16 @@ import java.util.Optional;
 
 public class ShippingPriceCalculator {
 
-    private final ShippingInfoRepo shippingInfoRepo;
     private final ShippingInfoMapper shippingInfoMapper;
     private final ShippingPriceProvider shippingPriceProvider;
     private final ShippingSuggestedPriceProvider shippingSuggestedPriceProvider;
+    private final ShippingInfoRepo shippingInfoRepo;
 
-    public ShippingPriceCalculator(ShippingInfoRepo shippingInfoRepo, ShippingInfoMapper shippingInfoMapper, ShippingPriceProvider shippingPriceProvider, ShippingSuggestedPriceProvider shippingSuggestedPriceProvider) {
-        this.shippingInfoRepo = shippingInfoRepo;
+    public ShippingPriceCalculator(ShippingInfoMapper shippingInfoMapper, ShippingPriceProvider shippingPriceProvider, ShippingSuggestedPriceProvider shippingSuggestedPriceProvider, ShippingInfoRepo shippingInfoRepo) {
         this.shippingInfoMapper = shippingInfoMapper;
         this.shippingPriceProvider = shippingPriceProvider;
         this.shippingSuggestedPriceProvider = shippingSuggestedPriceProvider;
+        this.shippingInfoRepo = shippingInfoRepo;
     }
 
     public Optional<ShippingDiscountResponse> process(String rawLine) {

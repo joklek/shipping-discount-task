@@ -1,8 +1,7 @@
-package com.joklek.shipping;
+package com.joklek.shipping.service;
 
 import com.joklek.shipping.model.PackageSize;
 import com.joklek.shipping.model.ShippingCarrier;
-import com.joklek.shipping.service.ShippingInfoMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

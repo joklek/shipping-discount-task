@@ -25,13 +25,11 @@ public class Main {
         var shippingPriceProvider = new ShippingPriceProvider();
         var shippingInfoRepo = new ShippingInfoRepo();
         shippingPriceCalculator = new ShippingPriceCalculator(
-                shippingInfoRepo,
-                new ShippingInfoMapper(),
-                shippingPriceProvider,
-                new ShippingSuggestedPriceProvider(List.of(
-                        new SmallShipmentsRule(shippingPriceProvider),
-                        new ThirdLargeForLaPosteRule(shippingInfoRepo),
-                        new DiscountAccumulationLimitRule(shippingInfoRepo))));
+                new ShippingInfoMapper(), shippingPriceProvider, new ShippingSuggestedPriceProvider(List.of(
+                new SmallShipmentsRule(shippingPriceProvider),
+                new ThirdLargeForLaPosteRule(shippingInfoRepo),
+                new DiscountAccumulationLimitRule(shippingInfoRepo))), shippingInfoRepo
+        );
     }
 
     public static void main(String[] args) {
