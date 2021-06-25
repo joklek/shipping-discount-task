@@ -1,11 +1,15 @@
 package com.joklek.shipping.model;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public enum PackageSize {
     SMALL("S"), MEDIUM("M"), LARGE("L");
 
     private final String shortVersion;
+    private static final Map<String, PackageSize> shortToFull = Arrays.stream(PackageSize.values())
+            .collect(Collectors.toMap(PackageSize::getShortVersion, full -> full));
 
     PackageSize(String shortVersion) {
         this.shortVersion = shortVersion;
@@ -16,9 +20,6 @@ public enum PackageSize {
     }
 
     public static PackageSize convertFromRaw(String rawSize) {
-        return Arrays.stream(PackageSize.values())
-                .filter(packageSize -> packageSize.getShortVersion().equals(rawSize))
-                .findFirst()
-                .orElseThrow();
+        return shortToFull.get(rawSize);
     }
 }
