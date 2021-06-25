@@ -2,6 +2,7 @@ package com.joklek.shipping.model;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public enum ShippingCarrier {
@@ -20,6 +21,6 @@ public enum ShippingCarrier {
     }
 
     public static ShippingCarrier convertFromRaw(String rawShort) {
-        return shortToFull.get(rawShort);
+        return Objects.requireNonNull(shortToFull.get(rawShort));
     }
 }
