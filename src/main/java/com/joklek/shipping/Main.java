@@ -46,7 +46,7 @@ public class Main {
             Files.lines(filepath)
                     .forEach(Main::consumeRawLine);
         } catch (IOException e) {
-            System.out.printf("Something wrong happened while reading the files in path %s%n", filepath);
+            System.out.printf("Something wrong happened while reading the files in path \"%s\"%n", filepath);
             return;
         }
     }
