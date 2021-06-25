@@ -27,8 +27,9 @@ which will return the default price of shipping for given carrier and package si
 
 Then `ShippingSuggestedPriceProvider` is used to find the suggested price by applying `DiscountRule`s, which take in the
 ShippingInfo, initial price and current suggested price (As I see it now, I could also probably just pass the current
-discount? All of the rules would work fine). This was done to allow flexibility for the rules and avoid any weird
-coupling with upper levels of the code.
+discount? All of the rules would work fine, but `ThirdLargeForLaPosteRule` would need an additional query to get the
+Large LaPoste price). This was done to allow flexibility for the rules and avoid any weird coupling with upper levels of
+the code.
 
 Successful shipments are saved to `ShippingInfoRepo`, which is also used in some `DiscountRule`s, to allow the access of
 historic data. I thought about passing a list of past decisions to the rules, but it sounded dirty. Also, imagining the
