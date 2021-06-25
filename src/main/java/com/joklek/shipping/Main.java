@@ -9,6 +9,7 @@ import com.joklek.shipping.service.rules.SmallShipmentsRule;
 import com.joklek.shipping.service.rules.ThirdLargeForLaPosteRule;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -57,10 +58,10 @@ public class Main {
             System.out.printf("%s Ignored %n", rawLine);
         } else {
             var shipment = processedShipment.get();
-            if (shipment.discount().isEmpty()) {
+            if (BigDecimal.ZERO.compareTo(shipment.discount()) == 0) {
                 System.out.printf("%s %s %s %.2f - %n", shipment.date(), shipment.packageSize().getShortVersion(), shipment.shippingCarrier().getShortVersion(), shipment.price());
             } else {
-                System.out.printf("%s %s %s %.2f %.2f %n", shipment.date(), shipment.packageSize().getShortVersion(), shipment.shippingCarrier().getShortVersion(), shipment.price(), shipment.discount().get());
+                System.out.printf("%s %s %s %.2f %.2f %n", shipment.date(), shipment.packageSize().getShortVersion(), shipment.shippingCarrier().getShortVersion(), shipment.price(), shipment.discount());
             }
         }
     }
