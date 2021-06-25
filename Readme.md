@@ -16,24 +16,24 @@ to `ShippingPriceCalculator`, not a list of them. This moves the responsibility 
 the `ShippingPriceCalculator`. In theory, this would allow reading bigger files or easier adapting to some sort of event
 queue.
 
-First `ShippingInfoMapper` parses a raw line of text into the basic `ShippingInfo`. If the raw line of text is invalid
-an exception will be thrown. Currently there are no custom exceptions implemented and `ShippingPriceCalculator` will
-gobble up any exceptions thrown and just return an empty response.
-(If the need of detailed exceptions would ever rise, `ShippingPriceCalculator` could return not `Optional` but
-and `Either` which would hold either the success or error values)
+1. `ShippingInfoMapper` parses a raw line of text into the basic `ShippingInfo`. If the raw line of text is invalid an
+   exception will be thrown. Currently, there are no custom exceptions implemented and `ShippingPriceCalculator` will
+   gobble up any exceptions thrown and just return an empty response.
+   (If the need of detailed exceptions would ever rise, `ShippingPriceCalculator` could return not `Optional` but
+   and `Either` which would hold either the success or error values)
 
-If parsing was done successfully, `ShippingInfo` is passed down to `ShippingPriceProvider`, which is a fake "database",
-which will return the default price of shipping for given carrier and package size.
+2. If parsing was done successfully, `ShippingInfo` is passed down to `ShippingPriceProvider`, which is a fake "
+   database", which will return the default price of shipping for given carrier and package size.
 
-Then `ShippingSuggestedPriceProvider` is used to find the suggested price by applying `DiscountRule`s, which take in the
-ShippingInfo, initial price and current suggested price (As I see it now, I could also probably just pass the current
-discount? All of the rules would work fine, but `ThirdLargeForLaPosteRule` would need an additional query to get the
-Large LaPoste price). This was done to allow flexibility for the rules and avoid any weird coupling with upper levels of
-the code.
+3. `ShippingSuggestedPriceProvider` is used to find the suggested price by applying `DiscountRule`s, which take in the
+   `ShippingInfo`, initial price and current suggested price (As I see it now, I could also probably just pass the
+   current discount? All the rules would work fine, but `ThirdLargeForLaPosteRule` would need an additional query to get
+   the Large LaPoste price). This was done to allow flexibility for the rules and avoid any weird coupling with upper
+   levels of the code.
 
-Successful shipments are saved to `ShippingInfoRepo`, which is also used in some `DiscountRule`s, to allow the access of
-historic data. I thought about passing a list of past decisions to the rules, but it sounded dirty. Also, imagining the
-repo as a Database helped me feel safer with this design.
+4. Successful shipments are saved to `ShippingInfoRepo` (which is also used in some `DiscountRule`s, to allow the access
+   of historic data). I thought about passing a list of past decisions to the rules, but it sounded dirty. Also,
+   imagining the repo as a Database helped me feel safer with this design.
 
 The most interesting part of this for me was how the Rules define the design. I made the rules as separate classes,
 which are iterated through, each returning a suggested price. The order of this list is very important!
@@ -62,3 +62,10 @@ decides whether the earlier steps assigned good discounts or should the discount
 * If we add more rules, more requirements should be added to each rule. Should a discount be ignored, if an earlier
   discount is better? Not always?
 
+## What could be done to tidy up the code but looks like too much effort
+
+* Duplicate configuration from `Main` and `ShippingPriceCalculatorTest` could be moved out to a central `Config` class
+* Parsing could be moved out of `ShippingPriceCalculator` to `Main`, making the calculator more flexible. Then tests
+  would lose some of their clarity. Maybe then parsing could be integrated into them? But tests would test two things at
+  once, and it would be weird.
+* Add ComparisonUtils class which would deal with BigDecimal comparison mess
