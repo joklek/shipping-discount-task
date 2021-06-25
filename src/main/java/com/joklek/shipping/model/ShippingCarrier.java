@@ -19,7 +19,7 @@ public enum ShippingCarrier {
         return this.shortVersion;
     }
 
-    public static ShippingCarrier convertFromRaw(String rawSize) {
-        return shortToFull.get(rawSize);
+    public static ShippingCarrier convertFromRaw(String rawShort) {
+        return shortToFull.get(rawShort);
     }
 }

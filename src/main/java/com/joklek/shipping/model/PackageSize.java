@@ -19,7 +19,7 @@ public enum PackageSize {
         return this.shortVersion;
     }
 
-    public static PackageSize convertFromRaw(String rawSize) {
-        return shortToFull.get(rawSize);
+    public static PackageSize convertFromRaw(String rawShort) {
+        return shortToFull.get(rawShort);
     }
 }
