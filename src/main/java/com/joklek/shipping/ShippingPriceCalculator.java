@@ -6,10 +6,14 @@ import com.joklek.shipping.service.ShippingInfoMapper;
 import com.joklek.shipping.service.ShippingInfoRepo;
 import com.joklek.shipping.service.ShippingPriceProvider;
 import com.joklek.shipping.service.ShippingSuggestedPriceProvider;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
 public class ShippingPriceCalculator {
+
+    private static final Logger LOGGER = LogManager.getLogger(ShippingPriceCalculator.class);
 
     private final ShippingInfoMapper shippingInfoMapper;
     private final ShippingPriceProvider shippingPriceProvider;
@@ -29,6 +33,7 @@ public class ShippingPriceCalculator {
         try {
             shippingInfo = this.shippingInfoMapper.convert(rawLine);
         } catch (Exception e) {
+            LOGGER.error("Cannot map line '{}' into valid shipping info", rawLine, e);
             return Optional.empty();
         }
         var initialPrice = this.shippingPriceProvider.getPrice(shippingInfo.shippingCarrier(), shippingInfo.packageSize());

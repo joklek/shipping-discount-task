@@ -1,12 +1,9 @@
 package com.joklek.shipping.service.rules;
 
-import com.joklek.shipping.model.ShippingDiscountResponse;
 import com.joklek.shipping.model.ShippingInfo;
 import com.joklek.shipping.service.ShippingInfoRepo;
 
 import java.math.BigDecimal;
-import java.time.Month;
-import java.util.List;
 
 import static com.joklek.shipping.model.PackageSize.LARGE;
 import static com.joklek.shipping.model.ShippingCarrier.LA_POSTE;
@@ -33,7 +30,7 @@ public class ThirdLargeForLaPosteRule implements DiscountRule {
         var year = date.getYear();
         var month = date.getMonth();
 
-        var shipmentsOnMonth = this.findShipmentsOnMonth(year, month);
+        var shipmentsOnMonth = this.shippingInfoRepo.findShipmentsOnMonthForCarrierAndMonth(year, month, LA_POSTE, LARGE);
 
         var shipmentThisMonth = shipmentsOnMonth.size() + 1;
         if (shipmentThisMonth == FREE_DELIVERY_NTH_TIME) {
@@ -41,9 +38,5 @@ public class ThirdLargeForLaPosteRule implements DiscountRule {
         } else {
             return currentSuggestedPrice;
         }
-    }
-
-    private List<ShippingDiscountResponse> findShipmentsOnMonth(int year, Month month) {
-        return this.shippingInfoRepo.findShipmentsOnMonthForCarrierAndMonth(year, month, LA_POSTE, LARGE);
     }
 }

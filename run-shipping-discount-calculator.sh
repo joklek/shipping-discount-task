@@ -1,2 +1,2 @@
 #!/bin/sh
-java -jar target/shipping-discount-task-1.0-SNAPSHOT.jar $*
+java -jar target/shipping-discount-task-1.0-SNAPSHOT-jar-with-dependencies.jar $*

@@ -5,8 +5,6 @@ import com.joklek.shipping.model.ShippingInfo;
 import com.joklek.shipping.service.ShippingInfoRepo;
 
 import java.math.BigDecimal;
-import java.time.Month;
-import java.util.List;
 
 public class DiscountAccumulationLimitRule implements DiscountRule {
 
@@ -29,7 +27,7 @@ public class DiscountAccumulationLimitRule implements DiscountRule {
         var year = date.getYear();
         var month = date.getMonth();
 
-        var shipmentsOnMonth = this.findShipmentsOnMonth(year, month);
+        var shipmentsOnMonth = this.shippingInfoRepo.findShipmentsOnMonth(year, month);
 
         var totalDiscountsThisMonth = shipmentsOnMonth.stream()
                 .map(ShippingDiscountResponse::discount)
@@ -43,9 +41,5 @@ public class DiscountAccumulationLimitRule implements DiscountRule {
         } else {
             return initialPrice.subtract(discountBalance);
         }
-    }
-
-    private List<ShippingDiscountResponse> findShipmentsOnMonth(int year, Month month) {
-        return this.shippingInfoRepo.findShipmentsOnMonth(year, month);
     }
 }
